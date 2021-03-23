@@ -64,6 +64,7 @@ jobs:
       - run: npm ci
       - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
       - run: npm pack
+
 #      - name: publish to artifactory
 #        uses: advancedcsg-open/action-jfrog-cli@master
 #        with:
@@ -71,14 +72,16 @@ jobs:
 #          credentials type: 'apikey'
 #          apikey: ${{ secrets.JF_ARTIFACTORY_APIKEY }}
 #          args: u "dist/*" "/test/repo/path/" --recursive=true --build-name=mytestingapp
-      - name: Ping Artifactory
-        uses: katcosgrove/jfrogcli-action@master
+
+      - name: Connect to Artifactory
+        uses: Deepakanandrao/jfrog-cli@v3
         with:
-            cmd: 'ping'
-        env:
-            auth: 'bhuvan'
-            apikey: ${{ secrets.JF_ARTIFACTORY_APIKEY }}
-            url: 'https://artifactorygcp.jfrog.io/'
+        cli_cmd: |                                      # commands to be excuted
+         'jfrog rt ping'
+        env:  
+          SERVER_URL: 'https://artifactorygcp.jfrog.io/'           # Required (e.g. https://jfrogy.com/artifactory)
+          ACCESS_TYPE: api-key         # Required  (username-password, access-token, api-key)
+          API_KEY: ${{ secrets.JF_ARTIFACTORY_APIKEY }}
 
 ###      - run: npm publish
       - name: Upload
