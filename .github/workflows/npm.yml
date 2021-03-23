@@ -72,7 +72,7 @@ jobs:
 #          apikey: ${{ secrets.JF_ARTIFACTORY_APIKEY }}
 #          args: u "dist/*" "/test/repo/path/" --recursive=true --build-name=mytestingapp
       - name: Ping Artifactory
-        uses: katcosgrove/jfrog-actions@master
+        uses: katcosgrove/jfrogcli-action@master
         with:
             cmd: 'ping'
         env:
