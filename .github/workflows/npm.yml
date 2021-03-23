@@ -64,7 +64,14 @@ jobs:
       - run: npm ci
       - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
       - run: npm pack
-      - run: npm publish
+#      - run: npm publish
+      - uses: jfrog/setup-jfrog-cli@v1
+        env:
+	  JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+      - run: |
+	# Ping the server
+            jfrog rt ping
+
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
