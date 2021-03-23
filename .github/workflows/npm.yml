@@ -65,13 +65,11 @@ jobs:
       - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
       - run: npm pack
 #      - run: npm publish
-      - name: Ping Artifactory
-        uses: katcosgrove/jfrogcli-action@master
-        with:
-            cmd: 'ping'
+      - uses: jfrog/setup-jfrog-cli@v1
+      - run: jfrog --version
         env:
-            auth: ${{ secrets.JF_ARTIFACTORY_SECRET}}
-            url: ${{ secrets.JF_ARTIFACTORY_URL }}
+	  JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET }}
+      - run: jfrog rt ping
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
