@@ -1,0 +1,53 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v5.3
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - name: Get package version
+      id: vars
+      shell: bash
+      run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=pkg_version::$(node -e "console.log(require('./package.json').version);")"
+    - name: Add & Commit
+      uses: EndBug/add-and-commit@v4.2.0
+      with:
+          add: "dist"
+          force: true
+          message: "Built ${{ steps.vars.outputs.sha_short }}"
+          ref: "release/v${{ steps.vars.outputs.pkg_version }}"
+          tag: "v${{ steps.vars.outputs.pkg_version }}"
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Provided by Github Actions
+#    - run: npm test
