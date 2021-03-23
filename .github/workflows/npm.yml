@@ -64,8 +64,6 @@ jobs:
       - run: npm ci
       - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
       - run: npm pack
-      - run: npm install -g npm-cli-adduser
-      - run: npm-cli-adduser --username gulshansethi123@yahoo.com --password Manavsethi1 --email test@example.com
       - run: npm publish
       - name: Upload
         uses: actions/upload-artifact@v2
