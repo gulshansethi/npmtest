@@ -61,3 +61,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 15.x
+      - run: npm ci
+      - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
+      - run: npm pack
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+            name: package
+            path: "*.tgz"
