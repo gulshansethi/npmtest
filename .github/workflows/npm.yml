@@ -50,4 +50,4 @@ jobs:
           tag: "v${{ steps.vars.outputs.pkg_version }}"
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Provided by Github Actions
-#    - run: npm test
+    - run: npm test
