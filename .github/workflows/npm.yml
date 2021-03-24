@@ -94,10 +94,14 @@ jobs:
       with:
         # Disabling shallow clone is recommended for improving relevancy of reporting
         fetch-depth: 0
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectKey: testnpm
-        orgnization: testorgforweb
+    - name: Setup sonarqube
+      uses: warchant/setup-sonar-scanner@v3
+    - name: Run sonarqube
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: sonar-scanner
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.organization=testorgforweb
+          -Dsonar.host.url=https://sonarcloud.io/
+          -Dsonar.projectKey=testnpm
