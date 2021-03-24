@@ -114,8 +114,8 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: webcat14
-          password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -131,6 +131,6 @@ jobs:
       - name: Build and push docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: webcat14/hello
-          username: webcat14
-          password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
+          name: ${{ secrets.DOCKERHUB_USERNAME }}/hello
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
