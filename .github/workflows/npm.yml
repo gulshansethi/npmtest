@@ -87,24 +87,14 @@ jobs:
             name: package
             path: "*.tgz"
 
-
-
-  publish:
-    name: "Publish to GitHub Packages"
-    needs: [package]
+  sonarcloud:
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'gulshansethi'
     steps:
-    - name: Upload
-      uses: actions/download-artifact@v2
+    - uses: actions/checkout@v2
       with:
-          name: package
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-        registry-url: https://npm.pkg.github.com/
-        scope: "@gulshansethi"
-    - run: echo "registry=https://npm.pkg.github.com/@gulshansethi" >> .npmrc
-    - run: npm publish $(ls *.tgz) --access public
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
       env:
-        NODE_AUTH_TOKEN: ${{secrets.GITHUBACCESS}}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
