@@ -131,6 +131,6 @@ jobs:
       - name: Build and push docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: bloque/sales-lead-management
+          name: webcat14/hello
           username: webcat14
           password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
