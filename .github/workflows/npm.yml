@@ -116,8 +116,10 @@ jobs:
         with:
           username: webcat14
           password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
+          repository: webcat14/hello
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       -
         name: Build and push
         uses: docker/build-push-action@v2
