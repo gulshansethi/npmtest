@@ -114,8 +114,10 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: webcat14
-          password: password
+          username: webcat
+          password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v2
