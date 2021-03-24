@@ -126,4 +126,3 @@ jobs:
           context: .
           push: true
           tags: user/app:latest
-          repository: webcat14/hello
