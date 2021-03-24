@@ -119,11 +119,18 @@ jobs:
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
+      # -
+      #   name: Build and push
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: user/app:latest
+
+      - name: Build and push docker image
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: user/app:latest
+          name: bloque/sales-lead-management
+          username: webcat14
+          password: a36cf7cc-a133-454d-8c0f-258f7cc0f4f4
